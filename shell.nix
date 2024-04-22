@@ -1,5 +1,4 @@
-# FIXME this is probably not needed
-#let pkgs = import /home/chris/gt/nixpkgs {};
+# TODO pin nixpkgs version
 let pkgs = import <nixpkgs> {};
 in
 

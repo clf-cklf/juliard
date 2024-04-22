@@ -21,7 +21,6 @@ GPUCompiler.runtime_module(::GPUCompiler.CompilerJob{<:Any,ArduinoParams}) = Sta
 GPUCompiler.runtime_module(::GPUCompiler.CompilerJob{Arduino}) = StaticRuntime
 GPUCompiler.runtime_module(::GPUCompiler.CompilerJob{Arduino,ArduinoParams}) = StaticRuntime
 
-# TODO I think this is set up correctly, IDK if it needs more modification though
 function native_job(@nospecialize(func), @nospecialize(types))
   @info "Making compiler job for '$func$types'"
   source = GPUCompiler.methodinstance(typeof(func), Base.to_tuple_type(types))
@@ -42,7 +41,7 @@ function write_out(mod)
 end
 
 
-function builddump(mod)
+function build_dump(mod)
   obj = build(mod)
   mktemp() do path, io
     write(io, obj)
@@ -90,18 +89,18 @@ function main()
   while true
     volatile_store!(PORTB, PORTB1) # enable LED
 
-    for y in Int16(1):Int16(10000)
+    for y in Int16(1):Int16(30000)
       keep(y)
     end
 
     volatile_store!(PORTB, PORTB_none) # disable LED
 
-    for y in Int16(1):Int16(10000)
+    for y in Int16(1):Int16(30000)
       keep(y)
     end
   end
 end
 end
 
-builddump(Blink)
+build_dump(Blink)
 write_out(Blink)
