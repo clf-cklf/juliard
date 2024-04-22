@@ -29,15 +29,21 @@ function native_job(@nospecialize(func), @nospecialize(types))
   return GPUCompiler.CompilerJob(source, config)
 end
 
-function build_spon(mod::Module)
+function build(mod::Module)
   GPUCompiler.reset_runtime()
   GPUCompiler.JuliaContext() do _
     GPUCompiler.compile(:obj, native_job(mod.main, ()))[1]
   end
 end
 
+function write_out(mod)
+  obj = build(mod)
+  write("out.o", obj)
+end
+
+
 function builddump(mod)
-  obj = build_spon(mod)
+  obj = build(mod)
   mktemp() do path, io
     write(io, obj)
     flush(io)
@@ -84,13 +90,13 @@ function main()
   while true
     volatile_store!(PORTB, PORTB1) # enable LED
 
-    for y in Int16(1):Int16(3000)
+    for y in Int16(1):Int16(10000)
       keep(y)
     end
 
     volatile_store!(PORTB, PORTB_none) # disable LED
 
-    for y in Int16(1):Int16(3000)
+    for y in Int16(1):Int16(10000)
       keep(y)
     end
   end
@@ -98,3 +104,4 @@ end
 end
 
 builddump(Blink)
+write_out(Blink)
