@@ -1,3 +1,11 @@
+# About
+
+This is derived from the awesome work [here](https://github.com/Seelengrab/MCUCompiler.jl) and [here](https://seelengrab.github.io/articles/Running%20Julia%20baremetal%20on%20an%20Arduino/)
+
+The original blogpost code still more-or-less works, but some library calls needed to be updated.
+
+Also the dependencies are provided by Nix, so this should be relatively reproducible.
+
 # Usage
 
 To build the code, all prerequisites are sourced via Nix, so just run `nix-shell` to get the correct environment
